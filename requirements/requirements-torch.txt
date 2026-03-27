@@ -1,0 +1,26 @@
+# Зависимости для окружения PyTorch
+# 
+# ВАЖНО: Сначала установите PyTorch с поддержкой CUDA, используя официальные инструкции:
+# Посетите: https://pytorch.org/get-started/locally/
+# Пример для CUDA 11.8:
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+#
+# Или для CUDA 12.1:
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# После установки PyTorch установите эти дополнительные пакеты:
+numpy
+pandas
+scikit-learn
+pillow
+opencv-python-headless
+albumentations
+matplotlib
+tqdm
+tensorboard
+torchmetrics
+pytorch-lightning
+timm
+einops
+wandb
+mlflow

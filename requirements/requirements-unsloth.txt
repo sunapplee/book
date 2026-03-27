@@ -1,0 +1,19 @@
+# Окружение Unsloth для дообучения моделей
+# Создайте отдельное виртуальное окружение для этого
+#
+# ПРЕДВАРИТЕЛЬНЫЕ ТРЕБОВАНИЯ:
+# 1. Установите системные пакеты:
+#    sudo apt-get install python3-dev python3-pip
+#
+# 2. Сначала установите PyTorch с поддержкой CUDA (см. requirements-torch.txt)
+#
+# ШАГИ УСТАНОВКИ:
+# 
+# Шаг 1: Обновите pip инструменты
+pip install --upgrade pip setuptools wheel
+
+# Шаг 2: Установите unsloth (могут возникнуть конфликты зависимостей, используйте --break-system-packages при необходимости)
+pip install unsloth
+
+# Шаг 3: Установите дополнительные пакеты для обучения
+pip install trl peft accelerate bitsandbytes

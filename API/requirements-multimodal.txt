@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+requests
+python-multipart
+pandas
+numpy
+joblib
+scikit-learn
+catboost
+librosa
+pillow
+torch
+torchvision

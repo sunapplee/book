@@ -28,10 +28,28 @@
   — Работа с Docker
   — Работа с scp
 
+- docker/train_example/README.md
+  — Полный пример обучения LinearRegression в контейнере на исходных NumPy-данных
+  — Dockerfile, зависимости, сохранение модели и прогноза; запуск Windows/Linux
+
+### airflow
+
+- airflow/airflow.md
+  — Установка Airflow, запуск ноутбука через Papermill, передача output_dir
+- airflow/dag_notebook.py
+  — Создать папку → выполнить ноутбук → проверить модель и метрики
+- airflow/dag_train.py
+  — Обучение модели из SQLite по расписанию через PythonOperator
+
 ### ollama
 
 - ollama/ollama_rag.md
   — Пошаговая сборка RAG-пайплайна на LangChain
+
+- ollama/ollama_rag_turbovec.py
+  — Эмбеддинги через sentence-transformers и Ollama
+  — TurboVec: добавление документов, поиск, сохранение и загрузка
+  — Ответ по контексту через Ollama, цепочка LangChain (LCEL)
 
 - ollama/ollama.md
   — Установка Ollama, управление моделями
@@ -43,6 +61,41 @@
 
 - ollama/ollama_finetuning.py
   — Подготовка данных и дообучение Qwen3 (4-bit) с помощью Unsloth + LoRA
+
+- ollama/ollama_prompts.py
+  — Structured output (Pydantic), Few-shot, Chain of Thoughts, Tree of Thoughts
+  — Self-consistency: независимые ответы и голосование
+  — ReAct: вызов функций моделью через Ollama
+
+### llama_cpp
+
+- llama_cpp/llama_cpp.md
+  — Установка и запуск GGUF-моделей: терминал, API, CPU
+  — Ограничение контекста и числа слотов
+  — Запросы из Python, отдельный сервер эмбеддингов
+
+- llama_cpp/llama_cpp_rag.py
+  — Загрузка TXT, Markdown, PDF, Word, CSV, Excel и HTML
+  — Подготовка текста, чанкинг, поиск через TurboVec и ответ через llama.cpp
+  — Оценка ответов по эталонным вопросам через RAGAS
+
+### rag
+
+- rag/rag_hybrid_turbovec.py
+  — Гибридный поиск: TurboVec (эмбеддинги Ollama) + BM25 (лемматизация)
+  — Объединение выдач через RRF, ответ через Ollama по общему контексту
+
+- rag/rag_metrics.py
+  — Метрики поиска: Precision/Recall@k, HitRate, MRR, MAP, NDCG
+  — Сравнение с эталоном: EM, token-F1, ROUGE, BLEU, chrF
+  — LLM-судья через Ollama: подтверждение фактов, релевантность, полнота, сравнение ответов
+
+### visualization
+
+- visualization/plotly.py
+  — Plotly Express и Graph Objects: гистограммы, boxplot, scatter, bar, линии
+  — Сетки графиков через make_subplots
+  — Выпадающие переключатели: замена данных (restyle), видимость серий (update)
 
 ### images
 
@@ -122,6 +175,10 @@
 
 ### load_data
 
+- load_data/pdf_tables.py
+  — Извлечение таблиц из PDF через PyMuPDF и Camelot
+  — Таблицы как списки строк, DataFrame и Markdown
+
 - load_data/load_data.py
   — Загрузка CSV, TXT, Excel, включая ленивую обработку через chunksize
   — Загрузка бинарных форматов с кастомной структурой (magic, headers, dtype)
@@ -174,6 +231,11 @@
 
 ### table
 
+- table/table_prepare.py
+  — Нестандартная шапка Excel, объединение файлов за разные годы
+  — Согласование названий районов, объединение источников по ключам
+  — Накопленные суммы, окно по строкам, дневные и месячные агрегаты
+
 - table/table.py
   — Сохранение таблиц в БД SQLite (to_sql)
   — Хранение нереляционных данных через shelve
@@ -203,6 +265,11 @@
   — Интерполяция пропусков
   — STL-декомпозиция: тренд, сезонность, остаток
   — Прогнозирование: простая ML-модель + SARIMAX
+
+- table/table_time_series_prepare.py
+  — Проверка дубликатов и полноты каждой пары «месяц — категория» по территориям
+  — Полный календарь через reindex, интерполяция внутри каждого ряда
+  — Сравнение исходных и восстановленных значений, кросс-корреляция (CCF)
 
 - table/table_kaggle_clf.py
   — Kaggle Tabular Playground: бинарная классификация (Heart Disease, ROC AUC)
@@ -283,6 +350,11 @@
   — Haversine: расстояние по поверхности Земли как ML-признак
   — Shapely: принадлежность точки полигону, буферные зоны
 
+- geo/geo_spatial_prepare.py
+  — Определение района по координатам через sjoin для уникальных точек
+  — Генерация точек внутри полигонов через contains_xy
+  — Пространственная интерполяция климатических признаков через griddata (nearest)
+
 ### API
 
 - API/multimodal_ml_api.py
@@ -290,6 +362,11 @@
 	— Поддержка табличных, аудио, image и geo-данных
 - API/multimodal_ml_test_api.py
 	— Тестирование API-запросов к сервису
+
+- API/tables.py, API/audio.py, API/image.py, API/geo.py
+  — Вспомогательные модули мультимодального API: инференс, дообучение, метрики
+- API/requirements-multimodal.txt
+  — Зависимости мультимодального API; артефакты и запуск описаны в docs/api_docs.md
 
 - API/doc_processing_api.py
 	— FastAPI-сервис для обработки PDF-документов
@@ -314,6 +391,10 @@
 	— Поддержка метрик качества распознавания и изменения конфигурации аудио
 
 ### ocr
+
+- ocr/ocr_image.py
+  — EasyOCR: русский/английский, объединение распознанных строк
+  — GLM-OCR через Transformers и нативный API Ollama
 
 - ocr/ocr_comparison_1.py
   — Сравнение OCR-решений для PDF: Pytesseract, Marker-PDF (Surya), Docling, Nanonets-OCR

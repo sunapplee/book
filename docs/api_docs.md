@@ -20,14 +20,16 @@ REST API для работы с несколькими ML-моделями:
 
 ### 1. Установка зависимостей
 
+Команды выполнять из `book/API/`.
+
 ```bash
-pip install -r requirements.txt
+pip install -r requirements-multimodal.txt
 ```
 
 ### 2. Запуск сервера
 
 ```bash
-uvicorn api:app --host 0.0.0.0 --port 8002 --reload
+uvicorn multimodal_ml_api:app --host 0.0.0.0 --port 8002 --reload
 ```
 
 После запуска API будет доступен по адресу:
@@ -41,18 +43,23 @@ uvicorn api:app --host 0.0.0.0 --port 8002 --reload
 
 ```bash
 .
-├── api.py
+├── multimodal_ml_api.py
 ├── audio.py
 ├── image.py
 ├── geo.py
 ├── tables.py
-├── test_api.py
-├── requirements.txt
+├── multimodal_ml_test_api.py
+├── requirements-multimodal.txt
 ├── audio_models/
 ├── image_models/
 ├── table_models/
 └── geo_models/
 ```
+
+Папки `*_models/` — артефакты исходного проекта `REA/Preparing_Rea2026123/Module 4/API/`.
+Код вспомогательных модулей включён в `book/API/`; веса и датасеты нужно разместить рядом самостоятельно.
+`image.py` читает `image_models/data_fruits/train/` уже при импорте, для оценки дообучения нужна также папка `test/`.
+Табличное и аудио-дообучение используют сохранённые train/test-наборы из соответствующих папок моделей.
 
 ---
 
@@ -112,7 +119,7 @@ curl -X POST "http://localhost:8002/image_inference" -F "file=@banana.jpg"
 ## Тестирование
 
 ```bash
-python test_api.py
+python multimodal_ml_test_api.py
 ```
 
 ---
@@ -121,7 +128,7 @@ python test_api.py
 
 * **Порт занят** → сменить порт или завершить процесс
 * **Нет модели** → проверить папки `*_models/`
-* **Нет библиотеки** → установить зависимости из `requirements.txt`
+* **Нет библиотеки** → установить зависимости из `requirements-multimodal.txt`
 * **Неверный формат файла** → использовать корректный тип входных данных
 
 ---
@@ -133,9 +140,9 @@ FROM python:3.10-slim
 
 WORKDIR /app
 COPY . /app
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-multimodal.txt
 
 EXPOSE 8002
 
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8002"]
+CMD ["uvicorn", "multimodal_ml_api:app", "--host", "0.0.0.0", "--port", "8002"]
 ```

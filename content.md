@@ -96,6 +96,7 @@
   — Plotly Express и Graph Objects: гистограммы, boxplot, scatter, bar, линии
   — Сетки графиков через make_subplots
   — Выпадающие переключатели: замена данных (restyle), видимость серий (update)
+  — hovertemplate, группы линий, обновление заголовка и оси с единицами
 
 ### images
 
@@ -332,6 +333,18 @@
   — Транскрибация Whisper large-v3 + нечёткое сопоставление команд (rapidfuzz)
 
 ### geo
+
+- geo/geo_crs.py
+  — set_crs и to_crs, выбор UTM через estimate_utm_crs
+  — Сравнение площадей в Web Mercator и UTM, единицы измерения
+
+- geo/geo_intersection.py
+  — Пересечение полигонов, геометрии частей, площади и доли покрытия
+  — Проверка суммы площадей, пустой результат и карта пересечений
+
+- geo/geo_folium.py
+  — Именованные слои explore, LayerControl и HTML-заголовок карты
+  — Подсказки, выделенный район и сохранение HTML
 
 - geo/geo_gpx.py
   — Работа с GPX-треками: точки, LineString, проекции

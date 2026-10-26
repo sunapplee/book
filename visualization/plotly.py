@@ -79,3 +79,50 @@ fig.update_layout(updatemenus=[{
     "direction": "down",
 }])
 fig.show()
+
+# 5. Три района × два показателя: hovertemplate и обновление layout.
+# Условные данные; единицы: температура — °C, осадки — мм.
+dates = pd.date_range("2026-01-01", periods=5)
+districts = ["Район А", "Район Б", "Район В"]
+data = pd.DataFrame({
+    "date": dates.repeat(3), "district": districts * len(dates),
+    "temp": [3, 5, 1, 4, 6, 2, 2, 3, 0, 5, 7, 3, 4, 6, 2],
+    "precipitation": [0, 2, 1, 1, 0, 3, 4, 1, 2, 0, 0, 1, 2, 3, 0],
+})
+metrics = [("temp", "Температура", "°C"), ("precipitation", "Осадки", "мм")]
+
+fig = go.Figure()
+for column, title, unit in metrics:
+    for district in districts:
+        sample = data[data["district"] == district]
+        hoverdata = (
+            "Дата: %{x|%d.%m.%Y}<br>"
+            f"Район: {district}<br>{title}: "
+            "%{y:.1f} " + unit + "<extra></extra>"
+        )
+        fig.add_trace(go.Scatter(
+            x=sample["date"], y=sample[column], name=district, mode="lines+markers",
+            visible=column == "temp", hovertemplate=hoverdata,
+        ))
+# hoverdata здесь — имя переменной. Параметр go.Scatter — hovertemplate.
+# У Plotly Express для дополнительных полей подсказки есть hover_data.
+
+fig.update_layout(
+    title="Температура по районам", xaxis_title="Дата", yaxis_title="Температура, °C",
+    updatemenus=[{"buttons": [
+        {
+            "label": title, "method": "update",
+            "args": [
+                # 1-й словарь: данные/видимость шести линий.
+                {"visible": [i == 0] * len(districts) + [i == 1] * len(districts)},
+                # 2-й словарь: настройки графика, включая заголовок и ось.
+                {"yaxis.title.text": f"{title}, {unit}", "title.text": f"{title} по районам"},
+            ],
+        }
+        for i, (column, title, unit) in enumerate(metrics)
+    ]}],
+)
+# 3-й аргумент update, если нужен, — индексы линий; это не ещё один layout.
+fig.show()
+fig.write_html("districts_plot.html", include_plotlyjs=True)
+# Проверяем обе кнопки и легенду в сохранённом HTML.

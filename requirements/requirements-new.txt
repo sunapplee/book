@@ -64,6 +64,18 @@ langchain-community
 faiss-cpu
 python-docx
 imbalanced-learn
+pyarrow
+mapclassify
+orjson
+tabulate
+lxml
+htmldocx
+pytz
+tslearn
+umap-learn
+kneed
+deepfilternet
+pyrnnoise
 
 
 ---

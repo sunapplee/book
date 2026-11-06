@@ -2,6 +2,8 @@ pillow
 tqdm
 matplotlib
 pandas
+openpyxl
+jupyter
 numpy
 seaborn
 plotly
